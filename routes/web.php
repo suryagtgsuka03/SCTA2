@@ -31,12 +31,16 @@ Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('acti
 
 Route::post('/monitor', [SupirController::class, 'store'])->name('monitor.post')->middleware('auth');
 Route::get('/monitor', [SupirController::class, 'index'])->name('monitor.get')->middleware('auth');
+Route::get('/monitor/{id}/edit', [SupirController::class, 'edit'])->name('monitor.edit')->middleware('auth');
+Route::put('/monitor/{id}', [SupirController::class, 'update'])->name('monitor.update')->middleware('auth');
+Route::delete('/supir/{id}', [SupirController::class, 'destroy'])->name('supir.destroy')->middleware('auth');
 
 Route::post('/pembukuan', [PemasukanController::class, 'store'])->name('pemasukan.store')->middleware('auth');
 Route::get('/pembukuan', [PemasukanController::class, 'index'])->name('pemasukan.index')->middleware('auth');
 Route::delete('/pembukuan/{pemasukan}', [PemasukanController::class, 'destroy'])->name('pemasukan.destroy')->middleware('auth');
 Route::put('/pemasukan/{id}', [PemasukanController::class, 'update'])->name('pemasukan.update')->middleware('auth');
 Route::get('/pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit')->middleware('auth');
+Route::delete('/pembukuan/{id}', [PemasukanController::class, 'destroy'])->name('pemasukan.destroy')->middleware('auth');
 
 Route::post('/pengeluaran', [PengeluaranController::class, 'store'])->name('pengeluaran.store')->middleware('auth');
 Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index')->middleware('auth');

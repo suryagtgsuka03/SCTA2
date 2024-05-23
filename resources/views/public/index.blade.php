@@ -170,7 +170,7 @@
                         </button>
                     </div>
                     <div class="menu-card">
-                        <img class="card-img-top" src="{{ asset('asset/img/tronton.jpg') }}" alt="Tronton">
+                        <img class="card-img-top" src="{{ asset('asset/img/tronton.jpeg') }}" alt="Tronton">
                         <h5 class="card-title">Tronton</h5>
                         <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#tronton">
                             Detail >
@@ -211,8 +211,10 @@
                                 <img src="{{ asset('asset/img/engkel.JPG') }}" alt="">
                             </div>
                             <div class="item2">
-                                <h1>Spesifikasi</h1>
                                 <table>
+                                    <tr>
+                                        <th><h1>SPESIFIKASI</h1></th>
+                                    </tr>
                                     <tr>
                                         <th>Muatan</th>
                                         <th>1 TON</th>
@@ -247,8 +249,10 @@
                                 <img src="{{ asset('asset/img/CD.JPG') }}" alt="">
                             </div>
                             <div class="item2">
-                                <h1>Spesifikasi</h1>
                                 <table>
+                                    <tr>
+                                        <th><h1>SPESIFIKASI</h1></th>
+                                    </tr>
                                     <tr>
                                         <th>Muatan</th>
                                         <th>1 TON</th>
@@ -283,11 +287,13 @@
                     <div class="modal-body">
                         <div class="grid-container">
                             <div class="item1">
-                                <img src="{{ asset('asset/img/tronton.jpg') }}" alt="">
+                                <img src="{{ asset('asset/img/tronton.jpeg') }}" alt="">
                             </div>
                             <div class="item2">
-                                <h1>Spesifikasi</h1>
                                 <table>
+                                    <tr>
+                                        <th><h1>SPESIFIKASI</h1></th>
+                                    </tr>
                                     <tr>
                                         <th>Muatan</th>
                                         <th>2 -2,5 TON</th>
@@ -326,8 +332,10 @@
                                 <img src="{{ asset('asset/img/trinton.jpeg') }}" alt="">
                             </div>
                             <div class="item2">
-                                <h1>Spesifikasi</h1>
                                 <table>
+                                    <tr>
+                                        <th><h1>SPESIFIKASI</h1></th>
+                                    </tr>
                                     <tr>
                                         <th>Muatan</th>
                                         <th>14 - 45 TON</th>

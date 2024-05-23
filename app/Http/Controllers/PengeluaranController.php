@@ -19,7 +19,6 @@ class PengeluaranController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -62,31 +61,30 @@ class PengeluaranController extends Controller
     }
 
     public function edit($id)
-{
-    $pengeluaran = pengeluaran::findOrFail($id);
-    return view('private.pengeluaran', compact('pengeluaran'));
-}
+    {
+        $pengeluaran = pengeluaran::findOrFail($id);
+        return view('private.pengeluaran', compact('pengeluaran'));
+    }
 
 
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'tanggal' => 'required',
-        'jumlah' => 'required',
-        'sumber' => 'required',
-        'keterangan' => 'required'
-    ]);
+    {
+        $request->validate([
+            'tanggal' => 'required',
+            'jumlah' => 'required',
+            'sumber' => 'required',
+            'keterangan' => 'required'
+        ]);
 
-    $pengeluaran = pengeluaran::findOrFail($id);
+        $pengeluaran = pengeluaran::findOrFail($id);
 
-    $pengeluaran->tanggal = $request->tanggal;
-    $pengeluaran->jumlah = $request->jumlah;
-    $pengeluaran->sumber = $request->sumber;
-    $pengeluaran->keterangan = $request->keterangan;
-    
-    $pengeluaran->save();
+        $pengeluaran->tanggal = $request->tanggal;
+        $pengeluaran->jumlah = $request->jumlah;
+        $pengeluaran->sumber = $request->sumber;
+        $pengeluaran->keterangan = $request->keterangan;
 
-    return redirect('pengeluaran')->with('Success', 'Data Pengeluaran Berhasil Diedit');
-}
+        $pengeluaran->save();
 
+        return redirect('pengeluaran')->with('Success', 'Data Pengeluaran Berhasil Diedit');
+    }
 }

@@ -265,19 +265,22 @@ body {
     height: 50%;
 }
 
-.item1 {
-    grid-area: img;
-    /* background-color: #2eb1b6; */
+
+.item2 th{
+    font-weight: 500;
+    font-size: 1.5pc;
 }
-.item2 {
-    grid-area: spec;
-    /* background-color: #676767; */
-}
+
 .item2 h1 {
     font-weight: bold;
 }
 .service .modal-body .item2 table {
     width: 100%;
+}
+
+.item1 img {
+    width: 200px;
+    height: 400px;
 }
 
 .service .modal-body .item2 td,
@@ -450,10 +453,10 @@ th {
 
 
 /* Open Monitor */
-a {
-    text-decoration: none;
+.content .row .widget-user-image img {
+    width: 100px;
+    height: 100px;
 }
-
 
 
 /* Close Monitor */
@@ -505,3 +508,4 @@ a {
         width: 80%;
     }
 }
+

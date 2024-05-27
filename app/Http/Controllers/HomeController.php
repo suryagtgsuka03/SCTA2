@@ -19,9 +19,9 @@ class HomeController extends Controller
         return view('private.invoice');
     }
     
-    public function pembukuan()
+    public function torder()
     {
-        return view('private.pembukuan');
+        return view('private.torder');
     }
 
     public function pengeluaran()

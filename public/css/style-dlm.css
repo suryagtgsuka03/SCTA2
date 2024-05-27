@@ -1,0 +1,31 @@
+/* Open Monitor */
+.content .row .widget-user-image img {
+    width: 100px;
+    height: 100px;
+}
+/* Close Monitor */
+
+/* Open TO */
+.content .table-ptransport {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content .table-ptransport th,
+.content .table-ptransport td {
+    text-align: center;
+    border: 1px solid #dee2e6;
+    padding: 8px;
+}
+
+.content .table-ptransport .no_do,
+.content .table-ptransport .no_spb {
+    vertical-align: middle;
+}
+/* Close TO */
+
+/* Open Pengeluaran */
+/* Close Pengeluaran */
+
+/* Open Invoice */
+/* Close Invoice */

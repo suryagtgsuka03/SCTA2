@@ -48,7 +48,6 @@ class PengeluaranController extends Controller
             'keterangan' => $request->input('keterangan'),
         ];
 
-
         pengeluaran::create($data_pengeluaran);
         return redirect('pengeluaran')->with('Success', 'Data Pengeluaran Berhasil Disimpan');
     }

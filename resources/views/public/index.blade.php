@@ -60,7 +60,7 @@
         <main class="row">
             <div class="col animate__animated animate__zoomIn"><img src="{{ asset('asset/img/logo.png') }}"
                     alt=""></div>
-            <div class="col animate__animated animate__fadeIn">
+            <div class="col text animate__animated animate__fadeIn">
                 <h1>CV . ARY & AGHA</h1>
                 <h3>Direct To Every Direction </h3>
             </div>

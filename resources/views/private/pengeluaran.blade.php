@@ -90,10 +90,10 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/pembukuan" class="nav-link">
-                                    <i class="nav-icon" data-feather="book-open"></i>
+                                <a href="/torder" class="nav-link">
+                                    <i class="nav-icon" data-feather="truck"></i>
                                     <p>
-                                        Pemasukan
+                                        Transport Order
                                     </p>
                                 </a>
                             </li>
@@ -151,7 +151,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -166,8 +165,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                <div class="card-body table-responsive">
+                                    <table id="pengeluaran-table" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th style="width: 15%">Tanggal</th>
@@ -303,19 +302,49 @@
         </div>
     </div>
 
-
-    <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('css/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- AdminLTE -->
-    <script src="{{ asset('css/AdminLTE/dist/js/adminlte.js') }}"></script>
+    <!-- DataTables & Plugins -->
+    <script src="{{ asset('css/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('css/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+    {{-- Save PDF --}}
     <script>
-        feather.replace();
+        $(function() {
+            $("#pengeluaran-table").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [{
+                        extend: 'pdfHtml5',
+                        customize: function(doc) {
+                            doc.content[1].table.widths = ['20%', '20%', '20%', '30%', '5%', '5%'];
+                            doc.styles.tableBodyEven.alignment = 'left';
+                            doc.styles.tableBodyOdd.alignment = 'left';
+                        }
+                    },
+                    "csv", "excel", "print"
+                ]
+            }).buttons().container().appendTo('#pengeluaran-table_wrapper .col-md-6:eq(0)');
+        });
     </script>
     {{-- JS --}}
     <script src="{{ asset('JS/script.js') }}"></script>
+    <script>
+        feather.replace();
+    </script>
 </body>
 
 </html>

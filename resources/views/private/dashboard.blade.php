@@ -101,10 +101,10 @@ body tag options:
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/pembukuan" class="nav-link">
-                                    <i class="nav-icon" data-feather="book-open"></i>
+                                <a href="/torder" class="nav-link">
+                                    <i class="nav-icon" data-feather="truck"></i>
                                     <p>
-                                        Pemasukan
+                                        Transport Order
                                     </p>
                                 </a>
                             </li>

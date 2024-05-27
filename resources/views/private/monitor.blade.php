@@ -7,7 +7,7 @@
     <title>Monitoring</title>
 
     {{-- Style css --}}
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style-dlm.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -28,15 +28,6 @@
 
 
 </head>
-<!--
-body tag options:
-
-  Apply one or more of the following classes to to the body tag
-  to get the desired effect
-
-  * sidebar-collapse
-  * sidebar-mini
--->
 
 <body class="body-mon hold-transition sidebar-mini">
     <div class="wrapper">
@@ -102,10 +93,10 @@ body tag options:
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/pembukuan" class="nav-link">
-                                    <i class="nav-icon" data-feather="book-open"></i>
+                                <a href="/torder" class="nav-link">
+                                    <i class="nav-icon" data-feather="truck"></i>
                                     <p>
-                                        Pemasukan
+                                        Transport Order
                                     </p>
                                 </a>
                             </li>
@@ -173,7 +164,7 @@ body tag options:
                     <div class="row">
                         @foreach ($data as $item)
                             <div class="col-md-4">
-                                <div class="card card-widget widget-user">
+                                <div class="card card-widget widget-user shadow">
                                     <div class="widget-user-header bg-info">
                                         <h3 class="widget-user-username">{{ $item->nama }}</h3>
                                         <h5 class="widget-user-desc">{{ $item->p_truk }}</h5>
@@ -208,7 +199,8 @@ body tag options:
                                                 <div class="description-block">
                                                     <button type="button"
                                                         class="btn btn-block bg-gradient-primary btn-lg"
-                                                        data-bs-toggle="modal" data-bs-target="#">Detail</button>
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#detail_supir">Detail</button>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
@@ -351,6 +343,24 @@ body tag options:
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="detail_supir" tabindex="-1" aria-labelledby="detailsupirlabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Supir</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="delete-supir">
         <form id="deleteSupir" method="POST" style="display:none;">
             @csrf

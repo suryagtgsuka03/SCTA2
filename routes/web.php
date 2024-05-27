@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\TOrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PemasukanController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\SupirController;
 
@@ -22,7 +22,7 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/monitor', [HomeController::class, 'monitor'])->name('monitor')->middleware('auth');
 Route::get('/invoice', [HomeController::class, 'invoice'])->name('invoice')->middleware('auth');
-Route::get('/pembukuan', [HomeController::class, 'pembukuan'])->name('pembukuan')->middleware('auth');
+Route::get('/torder', [HomeController::class, 'torder'])->name('torder')->middleware('auth');
 Route::get('/pengeluaran', [HomeController::class, 'pengeluaran'])->name('pengeluaran')->middleware('auth');
 
 
@@ -35,12 +35,12 @@ Route::get('/monitor/{id}/edit', [SupirController::class, 'edit'])->name('monito
 Route::put('/monitor/{id}', [SupirController::class, 'update'])->name('monitor.update')->middleware('auth');
 Route::delete('/supir/{id}', [SupirController::class, 'destroy'])->name('supir.destroy')->middleware('auth');
 
-Route::post('/pembukuan', [PemasukanController::class, 'store'])->name('pemasukan.store')->middleware('auth');
-Route::get('/pembukuan', [PemasukanController::class, 'index'])->name('pemasukan.index')->middleware('auth');
-Route::delete('/pembukuan/{pemasukan}', [PemasukanController::class, 'destroy'])->name('pemasukan.destroy')->middleware('auth');
-Route::put('/pemasukan/{id}', [PemasukanController::class, 'update'])->name('pemasukan.update')->middleware('auth');
-Route::get('/pemasukan/{id}/edit', [PemasukanController::class, 'edit'])->name('pemasukan.edit')->middleware('auth');
-Route::delete('/pembukuan/{id}', [PemasukanController::class, 'destroy'])->name('pemasukan.destroy')->middleware('auth');
+Route::post('/torder', [TOrderController::class, 'store'])->name('torder.store')->middleware('auth');
+Route::get('/torder', [TOrderController::class, 'index'])->name('torder.index')->middleware('auth');
+Route::get('/torder/{id}/edit', [TOrderController::class, 'edit'])->name('torder.edit')->middleware('auth');
+Route::put('/torder/{id}', [TOrderController::class, 'update'])->name('torder.update')->middleware('auth');
+Route::delete('/torder/{id}', [TOrderController::class, 'destroy'])->name('torder.destroy')->middleware('auth');
+
 
 Route::post('/pengeluaran', [PengeluaranController::class, 'store'])->name('pengeluaran.store')->middleware('auth');
 Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index')->middleware('auth');

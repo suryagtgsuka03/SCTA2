@@ -109,13 +109,11 @@ body {
 .animate__animated.animate__jackInTheBox {
     --animate-duration: 2s;
 }
-.hero .col {
-    padding: 100px;
-}
 
 .hero .col h1 {
     font-weight: 600;
     text-shadow: 3px 3px gray;
+    font-size: 70px;
 }
 .hero .col h3 {
     text-shadow: 2px 2px gray;
@@ -265,8 +263,7 @@ body {
     height: 50%;
 }
 
-
-.item2 th{
+.item2 th {
     font-weight: 500;
     font-size: 1.5pc;
 }
@@ -318,7 +315,7 @@ th {
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 3rem;
 }
-    
+
 /* Close Service */
 
 /* Start About */
@@ -448,28 +445,7 @@ th {
 }
 /* Close Login */
 
-
-
-
-
-/* Open Monitor */
-.content .row .widget-user-image img {
-    width: 100px;
-    height: 100px;
-}
-
-
-/* Close Monitor */
-
-
-
-
-
-
-
-
 /* Media Queries */
-
 /* Laptop */
 @media (max-width: 1366px) {
     html {
@@ -508,4 +484,3 @@ th {
         width: 80%;
     }
 }
-

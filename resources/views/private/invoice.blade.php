@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Invoice</title>
+    <title>Pengeluaran</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -17,53 +17,41 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE/dist/css/adminlte.min.css') }}">
     <!-- FeatherIcon -->
     <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- Alert --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<!--
-body tag options:
-
-  Apply one or more of the following classes to to the body tag
-  to get the desired effect
-
-  * sidebar-collapse
-  * sidebar-mini
--->
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-        <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Pembukuan</a>
+                    <a href="#" class="nav-link">Pengeluaran</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <!-- Navbar Search -->
                 <li class="nav-item d-none d-sm-inline-block">
 
                     <a href="{{ route('actionlogout') }}" class="nav-link"><i data-feather="log-out"></i>LogOut</a>
                 </li>
             </ul>
         </nav>
-        <!-- /.navbar -->
 
-        <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Sidebar -->
             <a style="text-decoration: none" href="#" class="brand-link">
                 <img src="{{ asset('asset/img/logo.png') }}" alt="CV Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light">CV. Ary & Agha</span>
             </a>
 
-            <!-- Sidebar -->
             <div class="sidebar">
-                <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
                         <img src="{{ asset('css/AdminLTE/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
@@ -74,7 +62,6 @@ body tag options:
                     </div>
                 </div>
                 <div class="sidebar">
-                    <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
@@ -95,7 +82,7 @@ body tag options:
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/invoice menu-open" class="nav-link active">
+                                <a href="/invoice" class="nav-link">
                                     <i class="nav-icon" data-feather="clipboard"></i>
                                     <p>
                                         Invoice
@@ -103,15 +90,15 @@ body tag options:
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/pembukuan" class="nav-link">
-                                    <i class="nav-icon" data-feather="book-open"></i>
+                                <a href="/torder" class="nav-link">
+                                    <i class="nav-icon" data-feather="truck"></i>
                                     <p>
-                                        Pemasukan
+                                        Transport Order
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="/pengeluaran" class="nav-link">
+                            <li class="nav-item menu-open">
+                                <a href="/pengeluaran" class="nav-link active">
                                     <i class="nav-icon" data-feather="book-open"></i>
                                     <p>
                                         Pengeluaran
@@ -120,145 +107,244 @@ body tag options:
                             </li>
                         </ul>
                     </nav>
-                    <!-- /.sidebar-menu -->
                 </div>
-                <!-- /.sidebar -->
         </aside>
+        {{-- Alert --}}
+        @if (session('Success'))
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: '{{ session('Success') }}',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            </script>
+        @endif
+        @if ($errors->any())
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: '<ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                        confirmButtonText: 'OK'
+                    });
+                });
+            </script>
+        @endif
 
-        <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Pembukuan</h1>
-                        </div><!-- /.col -->
+                            <h1 class="m-0">Pengeluaran</h1>
+                        </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item"><a href="#">Pengeluaran</a></li>
+                                <li class="breadcrumb-item active">Pengeluaran</li>
                             </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.content-header -->
-
-            <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="card">
                                 <div class="card-header border-0">
                                     <div class="d-flex justify-content-between">
-                                        <h3 class="card-title">Online Store Visitors</h3>
-                                        <a href="javascript:void(0);">View Report</a>
+                                        <h3 class="card-title">Pengeluaran</h3>
+                                        <a style="text-decoration: none" href="#" data-bs-toggle="modal"
+                                            data-bs-target="#pengeluaran-add"><i data-feather="plus"></i>
+                                            Tambah
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <div class="d-flex">
-                                        <p class="d-flex flex-column">
-                                            <span class="text-bold text-lg">820</span>
-                                            <span>Visitors Over Time</span>
-                                        </p>
-                                        <p class="ml-auto d-flex flex-column text-right">
-                                            <span class="text-success">
-                                                <i class="fas fa-arrow-up"></i> 12.5%
-                                            </span>
-                                            <span class="text-muted">Since last week</span>
-                                        </p>
-                                    </div>
-                                    <!-- /.d-flex -->
-
-                                    <div class="position-relative mb-4">
-                                        <canvas id="visitors-chart" height="200"></canvas>
-                                    </div>
-
-                                    <div class="d-flex flex-row justify-content-end">
-                                        <span class="mr-2">
-                                            <i class="fas fa-square text-primary"></i> This Week
-                                        </span>
-
-                                        <span>
-                                            <i class="fas fa-square text-gray"></i> Last Week
-                                        </span>
-                                    </div>
+                                <div class="card-body table-responsive">
+                                    <table id="pengeluaran-table" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 15%">Tanggal</th>
+                                                <th style="width: 15%">Jumlah</th>
+                                                <th style="width: 15%">Sumber</th>
+                                                <th style="width: 55%">Keterangan</th>
+                                                <th style="width: 30px"></th>
+                                                <th style="width: 30px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{-- @foreach ($data_pengeluaran as $pengeluaran)
+                                                <tr>
+                                                    <td>{{ $pengeluaran->tanggal }}</td>
+                                                    <td>Rp. {{ $pengeluaran->jumlah }}</td>
+                                                    <td>{{ $pengeluaran->sumber }}</td>
+                                                    <td>{{ $pengeluaran->keterangan }}</td>
+                                                    <td>
+                                                        <a href="#"
+                                                            onclick="event.preventDefault(); deletePengeluaran({{ $pengeluaran->id }})">
+                                                            <i data-feather="trash-2"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#pengeluaran-edit"
+                                                            onclick="editPengeluaran({{ $pengeluaran }})">
+                                                            <i data-feather="edit"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach --}}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                          <div class="card">
-                              <div class="card-header border-0">
-                                  <div class="d-flex justify-content-between">
-                                      <h3 class="card-title">Online Store Visitors</h3>
-                                      <a href="javascript:void(0);">View Report</a>
-                                  </div>
-                              </div>
-                              <div class="card-body">
-                                  <div class="d-flex">
-                                      <p class="d-flex flex-column">
-                                          <span class="text-bold text-lg">820</span>
-                                          <span>Visitors Over Time</span>
-                                      </p>
-                                      <p class="ml-auto d-flex flex-column text-right">
-                                          <span class="text-success">
-                                              <i class="fas fa-arrow-up"></i> 12.5%
-                                          </span>
-                                          <span class="text-muted">Since last week</span>
-                                      </p>
-                                  </div>
-                                  <!-- /.d-flex -->
-
-                                  <div class="position-relative mb-4">
-                                      <canvas id="visitors-chart" height="200"></canvas>
-                                  </div>
-
-                                  <div class="d-flex flex-row justify-content-end">
-                                      <span class="mr-2">
-                                          <i class="fas fa-square text-primary"></i> This Week
-                                      </span>
-
-                                      <span>
-                                          <i class="fas fa-square text-gray"></i> Last Week
-                                      </span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                        <!-- /.row -->
                     </div>
-                    <!-- /.container-fluid -->
+
+                    <div class="hapus-pengeluaran">
+                        <form id="deletePengeluaran" method="POST" style="display:none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </div>
+
+                    <div class="modal fade" id="pengeluaran-edit">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Edit Pengeluaran</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="edit-pengeluaran"
+                                        action="{{ route('pengeluaran.update', $pengeluaran->id ?? '') }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-3">
+                                            <label for="tanggal" class="form-label">Tanggal</label>
+                                            <input type="date" class="form-control" id="tanggal" name="tanggal"
+                                                value="{{ $pengeluaran->tanggal ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="jumlah" class="form-label">Jumlah</label>
+                                            <input type="text" class="form-control" id="jumlah" name="jumlah"
+                                                value="{{ $pengeluaran->jumlah ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sumber" class="form-label">Sumber</label>
+                                            <input type="text" class="form-control" id="sumber" name="sumber"
+                                                value="{{ $pengeluaran->sumber ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="keterangan" class="form-label">Keterangan</label>
+                                            <textarea id="keterangan" name="keterangan" rows="10" cols="143">{{ $pengeluaran->keterangan ?? '' }}</textarea>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="pengeluaran-add">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tambah Pengeluaran</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="modal-body">
+                                        <form id="pengeluaran" action="{{ route('pengeluaran.store') }}"
+                                            method="post" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="mb-3">
+                                                <label for="tanggal" class="form-label">Tanggal</label>
+                                                <input type="date" class="form-control" id="tanggal"
+                                                    name="tanggal" value="{{ old('tanggal') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="jumlah" class="form-label">Jumlah</label>
+                                                <input type="text" class="form-control" id="jumlah"
+                                                    name="jumlah" value="{{ old('jumlah') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="sumber" class="form-label">Sumber</label>
+                                                <input type="text" class="form-control" id="sumber"
+                                                    name="sumber" value="{{ old('sumber') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <p><label for="keterangan" class="form-label">Keterangan</label></p>
+                                                <textarea id="keterangan" name="keterangan" rows="10" cols="143" value="{{ old('keterangan') }}"></textarea>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- /.content -->
             </div>
-            <!-- /.content-wrapper -->
-
-            <!-- Control Sidebar -->
-            <aside class="control-sidebar control-sidebar-dark">
-                <!-- Control sidebar content goes here -->
-            </aside>
-            <!-- /.control-sidebar -->
         </div>
-        <!-- ./wrapper -->
+    </div>
 
-        <!-- REQUIRED SCRIPTS -->
-
-        <!-- jQuery -->
-        <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
-        <!-- Bootstrap -->
-        <script src="{{ asset('css/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <!-- AdminLTE -->
-        <script src="{{ asset('css/AdminLTE/dist/js/adminlte.js') }}"></script>
-
-        <!-- OPTIONAL SCRIPTS -->
-        <script src="{{ asset('css/AdminLTE/plugins/chart.js/Chart.min.js') }}"></script>
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="{{ asset('css/AdminLTE/dist/js/pages/dashboard3.js') }}"></script>
-        <script>
-            feather.replace();
-        </script>
+    <!-- jQuery -->
+    <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('css/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables & Plugins -->
+    <script src="{{ asset('css/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ asset('css/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+    {{-- Save PDF --}}
+    <script>
+        $(function() {
+            $("#pengeluaran-table").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [{
+                        extend: 'pdfHtml5',
+                        customize: function(doc) {
+                            doc.content[1].table.widths = ['20%', '20%', '20%', '30%', '5%', '5%'];
+                            doc.styles.tableBodyEven.alignment = 'left';
+                            doc.styles.tableBodyOdd.alignment = 'left';
+                        }
+                    },
+                    "csv", "excel", "print"
+                ]
+            }).buttons().container().appendTo('#pengeluaran-table_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+    {{-- JS --}}
+    <script src="{{ asset('JS/script.js') }}"></script>
+    <script>
+        feather.replace();
+    </script>
 </body>
 
 </html>

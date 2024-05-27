@@ -12,23 +12,32 @@ class LoginController extends Controller
     {
         if (Auth::check()) {
             return redirect('/dashboard');
-        }else{
+        } else {
             return view('public.login');
         }
     }
 
     public function actionlogin(Request $request)
     {
-        $data = [
+        $credentials = [
             'email' => $request->input('email'),
             'password' => $request->input('password'),
         ];
 
-        if (Auth::Attempt($data)) {
+        if (Auth::attempt($credentials)) {
             return redirect('dashboard');
-        }else{
-            Session::flash('error', 'Email atau Password Salah');
-            return redirect('/login');
+        } else {
+            // Cek apakah email tidak ditemukan
+            $user = \App\Models\User::where('email', $request->input('email'))->first();
+            if (!$user) {
+                return redirect()->back()->withErrors([
+                    'email' => 'Email atau Password yang Anda masukkan salah.',
+                ]);
+            } else {
+                return redirect()->back()->withErrors([
+                    'password' => 'Email atau Password yang Anda masukkan salah.',
+                ]);
+            }
         }
     }
 

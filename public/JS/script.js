@@ -142,19 +142,25 @@ function deletePengeluaran(id) {
     });
 }
 
-//edit pemasukan
-function editPemasukan(pemasukan) {
-    document.getElementById(
-        "pemasukan-edit-form"
-    ).action = `/pemasukan/${pemasukan.id}`;
-    document.getElementById("tanggal").value = pemasukan.tanggal;
-    document.getElementById("jumlah").value = pemasukan.jumlah;
-    document.getElementById("sumber").value = pemasukan.sumber;
-    document.getElementById("keterangan").value = pemasukan.keterangan;
+//edit torder
+function editTOrder(Torder) {
+    document.getElementById("edit-torder").action = `/torder/${Torder.id}`;
+    document.getElementById("perusahaanedit").value = Torder.perusahaan;
+    document.getElementById("no_spkedit").value = Torder.no_spk;
+    document.getElementById("no_doedit").value = Torder.no_do;
+    document.getElementById("j_barangedit").value = Torder.j_barang;
+    document.getElementById("jumlahedit").value = Torder.jumlah;
+    document.getElementById("ppnedit").value = Torder.ppn;
+    document.getElementById("pphedit").value = Torder.pph;
+    document.getElementById("t_susutedit").value = Torder.t_susut;
+    document.getElementById("c_susutedit").value = Torder.c_susut;
+    document.getElementById("t_barangedit").value = Torder.t_barang;
+    document.getElementById("t_bongkaredit").value = Torder.t_bongkar; // Corrected ID
+    document.getElementById("t_angkutedit").value = Torder.t_angkut;
 }
 
-// hapus pemasukan
-function deletePemasukan(id) {
+// hapus torder
+function deleteTOrder(id) {
     Swal.fire({
         title: "Apakah Anda yakin?",
         text: "Data ini tidak dapat dikembalikan!",
@@ -165,8 +171,8 @@ function deletePemasukan(id) {
         confirmButtonText: "Ya, hapus!",
     }).then((result) => {
         if (result.isConfirmed) {
-            const form = document.getElementById("deletePemasukan");
-            form.action = `/pembukuan/${id}`;
+            const form = document.getElementById("deleteTOrder");
+            form.action = `/torder/${id}`;
             form.submit();
         }
     });

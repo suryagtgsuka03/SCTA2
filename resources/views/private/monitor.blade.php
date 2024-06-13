@@ -68,14 +68,6 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
-                            <li class="nav-item">
-                                <a href="/dashboard" class="nav-link">
-                                    <i class="nav-icon" data-feather="command"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
                             <li class="nav-item menu-open">
                                 <a href="/monitor" class="nav-link active">
                                     <i class="nav-icon" data-feather="monitor"></i>
@@ -162,67 +154,70 @@
             <div class="content content-mon">
                 <div class="container-fluid">
                     <div class="row">
-                        @foreach ($data as $item)
-                            <div class="col-md-4">
-                                <div class="card card-widget widget-user shadow">
-                                    <div class="widget-user-header bg-info">
-                                        <h3 class="widget-user-username">{{ $item->nama }}</h3>
-                                        <h5 class="widget-user-desc">{{ $item->p_truk }}</h5>
-                                    </div>
-                                    <div class="widget-user-image">
-                                        <img src="{{ asset('storage/foto/' . $item->foto) }}"
-                                            class="img-circle elevation-2" alt="User Image">
-                                    </div>
-                                    <div class="card-footer">
-                                        <div class="row">
-                                            <div class="col-sm-4 border-right">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">{{ $item->t_lahir }}</h5>
-                                                    <span class="description-text">Tanggal Lahir</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4 border-right">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">{{ $item->umur }}</h5>
-                                                    <span class="description-text">Umur</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <h5 class="description-header">{{ $item->asal }}</h5>
-                                                    <span class="description-text">Asal</span>
-                                                </div>
-                                            </div>
+                        @if (count($data) == 0)
+                            <p>Data tidak tersedia.</p>
+                        @else
+                            @foreach ($data as $item)
+                                <div class="col-md-4">
+                                    <div class="card card-widget widget-user shadow">
+                                        <div class="widget-user-header bg-info">
+                                            <h3 class="widget-user-username">{{ $item->nama }}</h3>
+                                            <h5 class="widget-user-desc">{{ $item->p_truk }}</h5>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <button type="button"
-                                                        class="btn btn-block bg-gradient-primary btn-lg"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#detail_supir">Detail</button>
+                                        <div class="widget-user-image">
+                                            <img src="{{ asset('storage/foto/' . $item->foto) }}"
+                                                class="img-circle elevation-2" alt="User Image">
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header">{{ $item->t_lahir }}</h5>
+                                                        <span class="description-text">Tanggal Lahir</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header">{{ $item->umur }}</h5>
+                                                        <span class="description-text">Umur</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header">{{ $item->asal }}</h5>
+                                                        <span class="description-text">Asal</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <button type="button"
-                                                        class="btn btn-block bg-gradient-info btn-lg"
-                                                        data-bs-toggle="modal" data-bs-target="#edit_supir"
-                                                        data-id="{{ $item->id }}">Edit</button>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <button type="button"
+                                                            onclick="detailSupir({{ $item->id }})"
+                                                            class="btn btn-block bg-gradient-primary btn-lg">Detail</button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="description-block">
-                                                    <button type="button"
-                                                        class="btn btn-block bg-gradient-danger btn-lg"
-                                                        onclick="deleteSupir({{ $item->id }})">Hapus</button>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <button type="button"
+                                                            class="btn btn-block bg-gradient-info btn-lg"
+                                                            data-bs-toggle="modal" data-bs-target="#edit_supir"
+                                                            data-id="{{ $item->id }}">Edit</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <button type="button"
+                                                            class="btn btn-block bg-gradient-danger btn-lg"
+                                                            onclick="deleteSupir({{ $item->id }})">Hapus</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -262,9 +257,16 @@
                                 value="{{ old('umur') }}">
                         </div>
                         <div class="mb-3">
-                            <label for="plat_truk" class="form-label">Plat Truk</label>
-                            <input type="text" class="form-control" id="plat_truk" name="plat_truk"
-                                value="{{ old('plat_truk') }}">
+                            <label for="plat_truk">Plat Truk</label>
+                            <select class="form-control" id="plat_truk" name="plat_truk" required>
+                                <option value="" disabled selected>Plat Truk</option>
+                                @foreach ($truks as $truk)
+                                    <option value="{{ $truk->plat_truk }}"
+                                        @if ($truk->plat_truk == $truk->plat_truk) selected @endif>
+                                        {{ $truk->plat_truk }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="asal" class="form-label">Asal</label>
@@ -282,7 +284,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
@@ -319,8 +321,16 @@
                             <input type="text" class="form-control" id="editUmur" name="umur" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="editPlatTruk" class="form-label">Plat Truk</label>
-                            <input type="text" class="form-control" id="editPlatTruk" name="plat_truk">
+                            <label for="editPlatTruk">Plat Truk</label>
+                            <select class="form-control" id="editPlatTruk" name="plat_truk" required>
+                                <option value="" disabled selected>Plat Truk</option>
+                                @foreach ($truks as $truk)
+                                    <option value="{{ $truk->plat_truk }}"
+                                        @if ($truk->plat_truk == $truk->plat_truk) selected @endif>
+                                        {{ $truk->plat_truk }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="editAsal" class="form-label">Asal</label>
@@ -337,25 +347,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="detail_supir" tabindex="-1" aria-labelledby="detailsupirlabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Supir</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
                 </form>
             </div>
         </div>
@@ -368,7 +361,82 @@
         </form>
     </div>
 
+    <div class="modal fade" id="detail_supir" tabindex="-1" aria-labelledby="detailsupirlabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsupirlabel">Detail Supir</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <table>
+                            <th>
+                                <div class="item-container">
+                                    <div class="text">Foto</div>
+                                    <img id="detailFoto" src="" class="foto" alt="User Image">
+                                </div>
+                            </th>
+                            <th>
+                                <div class="item-container">
+                                    <div class="text">Foto Ktp</div>
+                                    <img id="detailFotoKtp" src="" class="foto-ktp" alt="User Image">
+                                </div>
+                            </th>
+                        </table>
+                    </div>
+                    <div class="container">
+                        <div class="item-container">
+                            <div class="text">Biodata</div>
+                            <table>
+                                <tr>
+                                    <th>Nama &emsp;</th>
+                                    <td>: &emsp;<span id="detailNama"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Nomor KTP &emsp;</th>
+                                    <td>: &emsp;<span id="detailNomorKtp"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Lahir &emsp;</th>
+                                    <td>: &emsp;<span id="detailTanggalLahir"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Umur &emsp;</th>
+                                    <td>: &emsp;<span id="detailUmur"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Plat Truk &emsp;</th>
+                                    <td>: &emsp;<span id="detailPlatTruk"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Asal &emsp;</th>
+                                    <td>: &emsp;<span id="detailAsal"></span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- REQUIRED SCRIPTS -->
+    <script>
+        // Tambahkan event listener di sini
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("detailButton").addEventListener("click", function() {
+                // Ambil ID supir dari data attribute atau sesuai kebutuhan
+                var supirId = document.getElementById("detailButton").getAttribute("data-supir-id");
+                // Panggil fungsi detailSupir dengan ID supir
+                detailSupir(supirId);
+            });
+        });
+    </script>
+
     <!-- jQuery -->
     <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
     <!-- Bootstrap -->

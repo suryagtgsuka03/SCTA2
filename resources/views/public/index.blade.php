@@ -393,7 +393,7 @@
                     <div class="menu-card">
                         <i data-feather="phone"></i>
                         <br><br>
-                        <h3>Office</h3>
+                        <h3>Phone Number</h3>
                         <li>
                             +62 813-6567-8344
                         </li>

@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        return view('private.dashboard');
-    }
     public function monitor()
     {
         return view('private.monitor');
@@ -18,8 +14,13 @@ class HomeController extends Controller
     {
         return view('private.invoice');
     }
-    
+
     public function torder()
+    {
+        return view('private.torder');
+    }
+
+    public function ptrans()
     {
         return view('private.torder');
     }

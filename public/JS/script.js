@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
     edit_supir.addEventListener("show.bs.modal", function (event) {
         var button = event.relatedTarget;
         var supirId = button.getAttribute("data-id");
-
         fetch("/monitor/" + supirId + "/edit")
             .then((response) => response.json())
             .then((data) => {
@@ -110,6 +109,35 @@ function deleteSupir(id) {
             form.submit();
         }
     });
+}
+
+// Detail supir
+function detailSupir(id) {
+    fetch(`/monitor/${id}/detail`)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            document.getElementById(
+                "detailFoto"
+            ).src = `/storage/foto/${data.foto}`;
+            document.getElementById(
+                "detailFotoKtp"
+            ).src = `/storage/foto_ktp/${data.foto_ktp}`;
+            document.getElementById("detailNama").innerText = data.nama;
+            document.getElementById("detailNomorKtp").innerText = data.no_ktp;
+            document.getElementById("detailTanggalLahir").innerText =
+                data.t_lahir;
+            document.getElementById("detailUmur").innerText = data.umur;
+            document.getElementById("detailPlatTruk").innerText = data.p_truk;
+            document.getElementById("detailAsal").innerText = data.asal;
+
+            // Tampilkan modal detail
+            var myModal = new bootstrap.Modal(
+                document.getElementById("detail_supir")
+            );
+            myModal.show();
+        })
+        .catch((error) => console.error("Error:", error));
 }
 
 // edit pengeluaran
@@ -155,7 +183,7 @@ function editTOrder(Torder) {
     document.getElementById("t_susutedit").value = Torder.t_susut;
     document.getElementById("c_susutedit").value = Torder.c_susut;
     document.getElementById("t_barangedit").value = Torder.t_barang;
-    document.getElementById("t_bongkaredit").value = Torder.t_bongkar; // Corrected ID
+    document.getElementById("t_bongkaredit").value = Torder.t_bongkar;
     document.getElementById("t_angkutedit").value = Torder.t_angkut;
 }
 
@@ -173,6 +201,70 @@ function deleteTOrder(id) {
         if (result.isConfirmed) {
             const form = document.getElementById("deleteTOrder");
             form.action = `/torder/${id}`;
+            form.submit();
+        }
+    });
+}
+
+//edit PTrans
+function editPTrans(PTrans) {
+    document.getElementById("edit-ptrans").action = `/ptrans/${PTrans.id}`;
+    document.getElementById("editno_do").value = PTrans.no_do;
+    document.getElementById("plat_trukedit").value = PTrans.plat_truk;
+    document.getElementById("supiredit").value = PTrans.supir;
+    document.getElementById("tgl_muatedit").value = PTrans.tgl_muat;
+    document.getElementById("tgl_bongkaredit").value = PTrans.tgl_bongkar;
+    document.getElementById("tot_muatedit").value = PTrans.tot_muat;
+    document.getElementById("tot_bongkaredit").value = PTrans.tot_bongkar;
+    document.getElementById("no_spbedit").value = PTrans.no_spb;
+}
+
+// hapus ptrans
+function deletePTrans(id) {
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Data ini tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.getElementById("deletePTrans");
+            form.action = `/ptrans/${id}`;
+            form.submit();
+        }
+    });
+}
+
+//edit invoice
+function editInvoice(invoice) {
+    document.getElementById("edit-invoice").action = `/invoice/${invoice.id}`;
+    document.getElementById("editt_masuk").value = invoice.t_masuk;
+    document.getElementById("editt_kirim").value = invoice.t_kirim;
+    document.getElementById("editdurasi").value = invoice.durasi;
+    document.getElementById("editi_nomor").value = invoice.i_nomor;
+    document.getElementById("editj_ditagih").value = invoice.j_ditagih;
+    document.getElementById("editj_dibayar").value = invoice.j_dibayar;
+    document.getElementById("editn_pajak").value = invoice.n_pajak;
+    document.getElementById("editnom_pajak").value = invoice.nom_pajak;
+}
+
+// hapus invoice
+function deleteInvoice(id) {
+    Swal.fire({
+        title: "Apakah Anda yakin?",
+        text: "Data ini tidak dapat dikembalikan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.getElementById("deleteInvoice");
+            form.action = `/invoice/${id}`;
             form.submit();
         }
     });

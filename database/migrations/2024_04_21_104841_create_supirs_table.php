@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('asal');
             $table->string('foto');
             $table->string('foto_ktp');
+            $table->foreignId('ptrans_id');
             $table->timestamps();
         });
     }

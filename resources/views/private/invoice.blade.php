@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pengeluaran</title>
+    <title>Invoice</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{{ asset('css/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    {{-- Style.css --}}
+    <link rel="stylesheet" href="{{ asset('css/style-dlm.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/AdminLTE/dist/css/adminlte.min.css') }}">
     <!-- FeatherIcon -->
@@ -33,7 +35,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Pengeluaran</a>
+                    <a href="#" class="nav-link">Invoice</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -66,14 +68,6 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="/dashboard" class="nav-link">
-                                    <i class="nav-icon" data-feather="command"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="/monitor" class="nav-link">
                                     <i class="nav-icon" data-feather="monitor"></i>
                                     <p>
@@ -82,7 +76,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/invoice" class="nav-link">
+                                <a href="/invoice menu-open" class="nav-link active">
                                     <i class="nav-icon" data-feather="clipboard"></i>
                                     <p>
                                         Invoice
@@ -97,8 +91,8 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item menu-open">
-                                <a href="/pengeluaran" class="nav-link active">
+                            <li class="nav-item">
+                                <a href="/pengeluaran" class="nav-link">
                                     <i class="nav-icon" data-feather="book-open"></i>
                                     <p>
                                         Pengeluaran
@@ -140,12 +134,10 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0">Pengeluaran</h1>
+                            <h1 class="m-0">Invoice</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Pengeluaran</a></li>
-                                <li class="breadcrumb-item active">Pengeluaran</li>
+                            {{--  --}}
                             </ol>
                         </div>
                     </div>
@@ -158,46 +150,55 @@
                             <div class="card">
                                 <div class="card-header border-0">
                                     <div class="d-flex justify-content-between">
-                                        <h3 class="card-title">Pengeluaran</h3>
+                                        <h3 class="card-title">Invoice</h3>
                                         <a style="text-decoration: none" href="#" data-bs-toggle="modal"
-                                            data-bs-target="#pengeluaran-add"><i data-feather="plus"></i>
+                                            data-bs-target="#invoice-add"><i data-feather="plus"></i>
                                             Tambah
                                         </a>
                                     </div>
                                 </div>
                                 <div class="card-body table-responsive">
-                                    <table id="pengeluaran-table" class="table table-bordered table-striped">
+                                    <table id="invoice-table" class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th style="width: 15%">Tanggal</th>
-                                                <th style="width: 15%">Jumlah</th>
-                                                <th style="width: 15%">Sumber</th>
-                                                <th style="width: 55%">Keterangan</th>
-                                                <th style="width: 30px"></th>
-                                                <th style="width: 30px"></th>
+                                                <th style="width: 10%">Tanggal Masuk</th>
+                                                <th style="width: 10%">Tanggal Kirim</th>
+                                                <th style="width: 15%">Nomor Invoice</th>
+                                                <th style="width: 20%">Status Invoice</th>
+                                                <th style="width: 15%">Jumlah Ditagih</th>
+                                                <th style="width: 15%">Jumlah Dibayar</th>
+                                                <th style="width: 15%">Nomor Pajak</th>
+                                                <th style="width: 15%">Nominal Pajak</th>
+                                                <th style="width: 15%"></th>
+                                                <th style="width: 15%"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($data_pengeluaran as $pengeluaran)
+                                            {{-- tanngal pembayaran kalau terlambat kenak --}}
+                                            @foreach ($data_invoice as $invoice)
                                                 <tr>
-                                                    <td>{{ $pengeluaran->tanggal }}</td>
-                                                    <td>Rp. {{ $pengeluaran->jumlah }}</td>
-                                                    <td>{{ $pengeluaran->sumber }}</td>
-                                                    <td>{{ $pengeluaran->keterangan }}</td>
+                                                    <td>{{ $invoice->t_masuk }}</td>
+                                                    <td>{{ $invoice->t_kirim }}</td>
+                                                    <td>{{ $invoice->i_nomor }}</td>
+                                                    <td>{{ $invoice->status }}</td>
+                                                    <td>Rp. {{ number_format($invoice->j_ditagih, 0, ',', '.') }}</td>
+                                                    <td>Rp. {{ number_format($invoice->j_dibayar, 0, ',', '.') }}</td>
+                                                    <td>{{ $invoice->n_pajak }}</td>
+                                                    <td>Rp. {{ number_format($invoice->nom_pajak, 0, ',', '.') }}</td>
                                                     <td>
                                                         <a href="#"
-                                                            onclick="event.preventDefault(); deletePengeluaran({{ $pengeluaran->id }})">
+                                                            onclick="event.preventDefault(); deleteInvoice({{ $invoice->id }})">
                                                             <i data-feather="trash-2"></i>
                                                         </a>
                                                     </td>
                                                     <td>
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#pengeluaran-edit"
-                                                            onclick="editPengeluaran({{ $pengeluaran }})">
+                                                            data-bs-target="#invoice-edit"
+                                                            onclick="editInvoice({{ $invoice }})">
                                                             <i data-feather="edit"></i></a>
                                                     </td>
                                                 </tr>
-                                            @endforeach --}}
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -205,44 +206,65 @@
                         </div>
                     </div>
 
-                    <div class="hapus-pengeluaran">
-                        <form id="deletePengeluaran" method="POST" style="display:none;">
+                    <div class="hapus-invoice">
+                        <form id="deleteInvoice" method="POST" style="display:none;">
                             @csrf
                             @method('DELETE')
                         </form>
                     </div>
 
-                    <div class="modal fade" id="pengeluaran-edit">
+                    <div class="modal fade" id="invoice-edit">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Edit Pengeluaran</h4>
+                                    <h4 class="modal-title">Edit Invoice</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="edit-pengeluaran"
-                                        action="{{ route('pengeluaran.update', $pengeluaran->id ?? '') }}"
-                                        method="POST">
+                                    <form id="edit-invoice"
+                                        action="{{ route('invoice.update', $invoice->id ?? '') }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         <div class="mb-3">
-                                            <label for="tanggal" class="form-label">Tanggal</label>
-                                            <input type="date" class="form-control" id="tanggal" name="tanggal"
-                                                value="{{ $pengeluaran->tanggal ?? '' }}">
+                                            <label for="editt_masuk" class="form-label">Tanggal Masuk</label>
+                                            <input type="date" class="form-control" id="editt_masuk"
+                                                name="editt_masuk" value="{{ $invoice->t_masuk ?? '' }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="jumlah" class="form-label">Jumlah</label>
-                                            <input type="text" class="form-control" id="jumlah" name="jumlah"
-                                                value="{{ $pengeluaran->jumlah ?? '' }}">
+                                            <label for="editt_kirim" class="form-label">Tanggal Kirim</label>
+                                            <input type="date" class="form-control" id="editt_kirim"
+                                                name="editt_kirim" value="{{ $invoice->t_kirim ?? '' }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="sumber" class="form-label">Sumber</label>
-                                            <input type="text" class="form-control" id="sumber" name="sumber"
-                                                value="{{ $pengeluaran->sumber ?? '' }}">
+                                            <label for="editdurasi" class="form-label">Durasi Pembayaran
+                                                (Hari)</label>
+                                            <input type="number" class="form-control" id="editdurasi"
+                                                name="editdurasi" value="{{ $invoice->durasi ?? '' }}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="keterangan" class="form-label">Keterangan</label>
-                                            <textarea id="keterangan" name="keterangan" rows="10" cols="143">{{ $pengeluaran->keterangan ?? '' }}</textarea>
+                                            <label for="editi_nomor" class="form-label">Nomor Invoice</label>
+                                            <input type="text" class="form-control" id="editi_nomor"
+                                                name="editi_nomor" value="{{ $invoice->i_nomor ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editj_ditagih" class="form-label">Jumlah Ditagih</label>
+                                            <input type="number" class="form-control" id="editj_ditagih"
+                                                name="editj_ditagih" value="{{ $invoice->j_ditagih ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editj_dibayar" class="form-label">Jumlah Dibayar</label>
+                                            <input type="number" class="form-control" id="editj_dibayar"
+                                                name="editj_dibayar" value="{{ $invoice->j_dibayar ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editn_pajak" class="form-label">Nomor Pajak</label>
+                                            <input type="text" class="form-control" id="editn_pajak"
+                                                name="editn_pajak" value="{{ $invoice->n_pajak ?? '' }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editnom_pajak" class="form-label">Nominal Pajak</label>
+                                            <input type="number" class="form-control" id="editnom_pajak"
+                                                name="editnom_pajak" value="{{ $invoice->nom_pajak ?? '' }}">
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -255,36 +277,58 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="pengeluaran-add">
+                    <div class="modal fade" id="invoice-add">
                         <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Tambah Pengeluaran</h4>
+                                    <h4 class="modal-title">Tambah Invoice</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="modal-body">
-                                        <form id="pengeluaran" action="{{ route('pengeluaran.store') }}"
-                                            method="post" enctype="multipart/form-data">
+                                        <form id="invoice" action="{{ route('invoice.store') }}" method="post"
+                                            enctype="multipart/form-data">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="tanggal" class="form-label">Tanggal</label>
-                                                <input type="date" class="form-control" id="tanggal"
-                                                    name="tanggal" value="{{ old('tanggal') }}">
+                                                <label for="t_masuk" class="form-label">Tanggal Masuk</label>
+                                                <input type="date" class="form-control" id="t_masuk"
+                                                    name="t_masuk" value="{{ old('t_masuk') }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="jumlah" class="form-label">Jumlah</label>
-                                                <input type="text" class="form-control" id="jumlah"
-                                                    name="jumlah" value="{{ old('jumlah') }}">
+                                                <label for="t_kirim" class="form-label">Tanggal Kirim</label>
+                                                <input type="date" class="form-control" id="t_kirim"
+                                                    name="t_kirim" value="{{ old('t_kirim') }}">
                                             </div>
                                             <div class="mb-3">
-                                                <label for="sumber" class="form-label">Sumber</label>
-                                                <input type="text" class="form-control" id="sumber"
-                                                    name="sumber" value="{{ old('sumber') }}">
+                                                <label for="durasi" class="form-label">Durasi Pembayaran
+                                                    (Hari)</label>
+                                                <input type="number" class="form-control" id="durasi"
+                                                    name="durasi" value="{{ old('durasi') }}">
                                             </div>
                                             <div class="mb-3">
-                                                <p><label for="keterangan" class="form-label">Keterangan</label></p>
-                                                <textarea id="keterangan" name="keterangan" rows="10" cols="143" value="{{ old('keterangan') }}"></textarea>
+                                                <label for="i_nomor" class="form-label">Nomor Invoice</label>
+                                                <input type="text" class="form-control" id="i_nomor"
+                                                    name="i_nomor" value="{{ old('i_nomor') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="j_ditagih" class="form-label">Jumlah Ditagih</label>
+                                                <input type="number" class="form-control" id="j_ditagih"
+                                                    name="j_ditagih" value="{{ old('j_ditagih') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="j_dibayar" class="form-label">Jumlah Dibayar</label>
+                                                <input type="number" class="form-control" id="j_dibayar"
+                                                    name="j_dibayar" value="{{ old('j_dibayar') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="n_pajak" class="form-label">Nomor Pajak</label>
+                                                <input type="text" class="form-control" id="n_pajak"
+                                                    name="n_pajak" value="{{ old('n_pajak') }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="nom_pajak" class="form-label">Nominal Pajak</label>
+                                                <input type="number" class="form-control" id="nom_pajak"
+                                                    name="nom_pajak" value="{{ old('nom_pajak') }}">
                                             </div>
                                     </div>
                                 </div>
@@ -323,21 +367,77 @@
     {{-- Save PDF --}}
     <script>
         $(function() {
-            $("#pengeluaran-table").DataTable({
+            $("#torder-table").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [{
                         extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        },
                         customize: function(doc) {
-                            doc.content[1].table.widths = ['20%', '20%', '20%', '30%', '5%', '5%'];
                             doc.styles.tableBodyEven.alignment = 'left';
                             doc.styles.tableBodyOdd.alignment = 'left';
                         }
                     },
-                    "csv", "excel", "print"
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    }
                 ]
-            }).buttons().container().appendTo('#pengeluaran-table_wrapper .col-md-6:eq(0)');
+            }).buttons().container().appendTo('#torder-table_wrapper .col-md-6:eq(0)');
+        });
+
+        $(function() {
+            $("#invoice-table").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [{
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        },
+                        customize: function(doc) {
+                            doc.styles.tableBodyEven.alignment = 'left';
+                            doc.styles.tableBodyOdd.alignment = 'left';
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    }
+                ]
+            }).buttons().container().appendTo('#invoice-table_wrapper .col-md-6:eq(0)');
         });
     </script>
     {{-- JS --}}

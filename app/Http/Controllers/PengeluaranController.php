@@ -81,7 +81,6 @@ class PengeluaranController extends Controller
         $pengeluaran->jumlah = $request->jumlah;
         $pengeluaran->sumber = $request->sumber;
         $pengeluaran->keterangan = $request->keterangan;
-
         $pengeluaran->save();
 
         return redirect('pengeluaran')->with('Success', 'Data Pengeluaran Berhasil Diedit');

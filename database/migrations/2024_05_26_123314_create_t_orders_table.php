@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('t_orders', function (Blueprint $table) {
             $table->id();
             $table->string('perusahaan');
-            $table->integer('no_spk')->unique();
-            $table->integer('no_do');
+            $table->string('no_spk')->unique();
+            $table->string('no_do');
             $table->string('j_barang');
             $table->integer('jumlah');
             $table->integer('ppn');

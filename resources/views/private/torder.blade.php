@@ -46,7 +46,7 @@
             </ul>
         </nav>
 
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
             <a style="text-decoration: none" href="#" class="brand-link">
                 <img src="{{ asset('asset/img/logo.png') }}" alt="CV Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
@@ -67,14 +67,6 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
-                            <li class="nav-item">
-                                <a href="/dashboard" class="nav-link">
-                                    <i class="nav-icon" data-feather="command"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
                             <li class="nav-item">
                                 <a href="/monitor" class="nav-link">
                                     <i class="nav-icon" data-feather="monitor"></i>
@@ -110,6 +102,7 @@
                         </ul>
                     </nav>
                 </div>
+            </div>
         </aside>
         {{-- Alert --}}
         @if (session('Success'))
@@ -146,8 +139,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Transport Order</a></li>
-                                <li class="breadcrumb-item active">Transport Order</li>
+                                {{--  --}}
                             </ol>
                         </div>
                     </div>
@@ -167,7 +159,8 @@
                                         </a>
                                     </div>
                                     <div class="card-body table-responsive">
-                                        <table id="torder-table" class="table table-bordered table-striped">
+                                        <table id="torder-table"
+                                            class="table table-bordered table-striped table-ptransport">
                                             <thead>
                                                 <tr>
                                                     <th style="width: 10%">Perusahaan</th>
@@ -178,12 +171,11 @@
                                                     <th style="width: 10%">Tujuan Bongkar</th>
                                                     <th style="width: 10%">Stock Point</th>
                                                     <th style="width: 12%">Estimasi Pembayaran</th>
-                                                    <th style="width: 7%">Progress</th>
+                                                    <th style="width: 15%">Progress</th>
                                                     <th style="width: 30px"></th>
                                                     <th style="width: 30px"></th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
                                             <tbody>
                                                 @foreach ($orders as $order)
                                                     <tr>
@@ -238,6 +230,7 @@
                                                     <label for="perusahaan">Perusahaan</label>
                                                     <input type="text" class="form-control" id="perusahaan"
                                                         name="perusahaan" required>
+                                                    <input type="hidden" name="form_type" value="torder">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="no_spk">No SPK</label>
@@ -317,7 +310,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form id="edit-torder" method="POST"
-                                                action="{{ route('torder.update', $order->id ?? '') }}">
+                                                action="{{ route('torder.updateTOrder', $order->id ?? '') }}">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="mb-3">
@@ -422,73 +415,367 @@
                                         <div class="d-flex justify-content-between">
                                             <h3 class="card-title">Progress Transport</h3>
                                             <a style="text-decoration: none" href="#" data-bs-toggle="modal"
-                                                data-bs-target="#pengeluaran-add"><i data-feather="plus"></i>
+                                                data-bs-target="#ptrans-add"><i data-feather="plus"></i>
                                                 Tambah
                                             </a>
                                         </div>
                                     </div>
                                     <div class="card-body table-responsive">
-                                        <table id="torder-table"
+                                        <table id="ptorder-table"
                                             class="table table-bordered table-striped table-ptransport">
                                             <thead>
-                                                <thead>
-                                                    <tr>
-                                                        <th class="no_spb" rowspan="2">NO DO</th>
-                                                        <th colspan="2">ARMADA PENGANGKUT</th>
-                                                        <th colspan="2">TANGGAL</th>
-                                                        <th colspan="3">QUANTITY (KG)</th>
-                                                        <th class="no_spb" rowspan="2">NO SPB</th>
-                                                        <th rowspan="2"></th>
-                                                        <th rowspan="2"></th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>PLAT NOMOR</th>
-                                                        <th>SUPIR</th>
-                                                        <th>MUAT</th>
-                                                        <th>BONGKAR</th>
-                                                        <th>MUAT</th>
-                                                        <th>BONGKAR</th>
-                                                        <th>SUSUT</th>
-                                                    </tr>
-                                                </thead>
+                                                <tr>
+                                                    <th rowspan="2">NO DO</th>
+                                                    <th colspan="2">ARMADA PENGANGKUT</th>
+                                                    <th colspan="2">TANGGAL</th>
+                                                    <th colspan="3">QUANTITY (KG)</th>
+                                                    <th rowspan="2">PERFORMA</th>
+                                                    <th rowspan="2">NO SPB</th>
+                                                    <th rowspan="2" style="width: 30px"></th>
+                                                    <th rowspan="2" style="width: 30px"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>PLAT NOMOR</th>
+                                                    <th>SUPIR</th>
+                                                    <th>MUAT</th>
+                                                    <th>BONGKAR</th>
+                                                    <th>MUAT</th>
+                                                    <th>BONGKAR</th>
+                                                    <th>SUSUT</th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
-                                            <tbody>
-                                                {{-- @foreach ($orders as $order)
-                                                @endforeach --}}
+                                                @foreach ($transports as $transport)
+                                                    <tr>
+                                                        <td>{{ $transport->no_do }}</td>
+                                                        <td>{{ $transport->plat_truk }}</td>
+                                                        <td>{{ $transport->supir }}</td>
+                                                        <td>{{ $transport->tgl_muat }}</td>
+                                                        <td>{{ $transport->tgl_bongkar }}</td>
+                                                        <td>{{ number_format($transport->tot_muat, 0, ',', '.') }} Kg
+                                                        </td>
+                                                        <td>{{ number_format($transport->tot_bongkar, 0, ',', '.') }}
+                                                            Kg</td>
+                                                        <td>{{ number_format($transport->tot_bongkar - $transport->tot_muat, 0, ',', '.') }}
+                                                            Kg</td>
+                                                        <td>{{ $transport->status }}</td>
+                                                        <td>{{ $transport->no_spb }}</td>
+                                                        <td>
+                                                            <a href="#"
+                                                                onclick="event.preventDefault(); deletePTrans({{ $transport->id }})">
+                                                                <i data-feather="trash-2"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" data-bs-toggle="modal"
+                                                                data-bs-target="#ptrans-edit"
+                                                                onclick="editPTrans({{ $transport }})">
+                                                                <i data-feather="edit"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="modal fade" id="ptrans-add" tabindex="-1" aria-labelledby="ptransModalLabelAdd"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ptransModalLabelAdd">Tambah Progress Transport
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="add-ptrans" method="POST" action="{{ route('torder.store') }}">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="no_do-add">Nomor DO</label>
+                                                <select class="form-control" id="no_do-add" name="no_do-add"
+                                                    required>
+                                                    <option value="" disabled selected>Nomor DO</option>
+                                                    @foreach ($orders as $order)
+                                                        <option value="{{ $order->no_do }}"
+                                                            @if ($order->no_do == $order->no_do) selected @endif>
+                                                            {{ $order->no_do }}
+                                                        </option>
+                                                    @endforeach
+                                                    <input type="hidden" name="form_type" value="ptrans">
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="plat_truk-add">Plat Truk</label>
+                                                <select class="form-control" id="plat_truk-add" name="plat_truk-add"
+                                                    required>
+                                                    <option value="" disabled selected>Plat Truk</option>
+                                                    @foreach ($truks as $truk)
+                                                        <option value="{{ $truk->plat_truk }}"
+                                                            @if ($truk->plat_truk == $truk->plat_truk) selected @endif>
+                                                            {{ $truk->plat_truk }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="supir-add">Supir</label>
+                                                <select class="form-control" id="supir-add" name="supir-add"
+                                                    required>
+                                                    <option value="" disabled selected>Supir</option>
+                                                    @foreach ($supirs as $supir)
+                                                        <option value="{{ $supir->nama }}"
+                                                            @if ($supir->nama == $supir->nama) selected @endif>
+                                                            {{ $supir->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tgl_muat-add">Tanggal Muat</label>
+                                                <input type="date" class="form-control" id="tgl_muat-add"
+                                                    name="tgl_muat-add" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tgl_bongkar-add">Tanggal Bongkar</label>
+                                                <input type="date" class="form-control" id="tgl_bongkar-add"
+                                                    name="tgl_bongkar-add" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tot_muat-add">Total Muat</label>
+                                                <input type="number" class="form-control" id="tot_muat-add"
+                                                    name="tot_muat-add" step="any" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tot_bongkar-add">Total Bongkar</label>
+                                                <input type="number" class="form-control" id="tot_bongkar-add"
+                                                    name="tot_bongkar-add" step="any" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="no_spb-add">Nomor SPB</label>
+                                                <input type="text" class="form-control" id="no_spb-add"
+                                                    name="no_spb-add" step="any" required>
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="ptrans-edit" tabindex="-1"
+                            aria-labelledby="ptransModalLabelEdit" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="ptransModalLabelEdit">Edit Transport Order
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="edit-ptrans" method="POST"
+                                            action="{{ route('ptrans.updatePTrans', $transport->id ?? '') }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-3">
+                                                <label for="editno_do">Pilih Nomor DO</label>
+                                                <select class="form-control" id="editno_do" name="editno_do"
+                                                    required>
+                                                    <option value="" disabled selected>Pilih Nomor DO</option>
+                                                    @foreach ($orders as $order)
+                                                        <option value="{{ $order->no_do }}"
+                                                            @if ($order->no_do == $order->no_do) selected @endif>
+                                                            {{ $order->no_do }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="plat_trukedit">Plat Truk</label>
+                                                <select class="form-control" id="plat_trukedit" name="plat_trukedit"
+                                                    required>
+                                                    <option value="" disabled selected>Pilih Plat Truk</option>
+                                                    @foreach ($truks as $truk)
+                                                        <option value="{{ $truk->plat_truk }}"
+                                                            @if ($truk->plat_truk == $truk->plat_truk) selected @endif>
+                                                            {{ $truk->plat_truk }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="supiredit">Supir</label>
+                                                <select class="form-control" id="supiredit" name="supiredit"
+                                                    required>
+                                                    <option value="" disabled selected>Supir</option>
+                                                    @foreach ($supirs as $supir)
+                                                        <option value="{{ $supir->nama }}"
+                                                            @if ($supir->nama == $supir->nama) selected @endif>
+                                                            {{ $supir->nama }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tgl_muatedit">Tanggal Muat</label>
+                                                <input type="date" class="form-control" id="tgl_muatedit"
+                                                    name="tgl_muatedit" value="{{ $transport->tgl_muat ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tgl_bongkaredit">Tanggal Bongkar</label>
+                                                <input type="date" class="form-control" id="tgl_bongkaredit"
+                                                    name="tgl_bongkaredit"
+                                                    value="{{ $transport->tgl_bongkar ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tot_muatedit">Total Muat</label>
+                                                <input type="number" class="form-control" id="tot_muatedit"
+                                                    name="tot_muatedit" step="any"
+                                                    value="{{ $transport->tot_muat ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="tot_bongkaredit">Total Bongkar</label>
+                                                <input type="number" class="form-control" id="tot_bongkaredit"
+                                                    name="tot_bongkaredit" step="any"
+                                                    value="{{ $transport->tot_bongkar ?? '' }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="no_spbedit">Nomor SPB</label>
+                                                <input type="text" class="form-control" id="no_spbedit"
+                                                    name="no_spbedit" step="any"
+                                                    value="{{ $transport->no_spb ?? '' }}">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Batal</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="hapus-ptrans">
+                                <form id="deletePTrans" method="POST" style="display:none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- jQuery -->
-        <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
-        <!-- Bootstrap -->
-        <script src="{{ asset('css/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <!-- DataTables & Plugins -->
-        <script src="{{ asset('css/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/jszip/jszip.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/pdfmake/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/pdfmake/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-        <!-- AdminLTE App -->
-        <script src="{{ asset('css/AdminLTE/dist/js/adminlte.min.js') }}"></script>
-        {{-- JS --}}
-        <script src="{{ asset('JS/script.js') }}"></script>
-        <script>
-            feather.replace();
-        </script>
+
+            <!-- jQuery -->
+            <script src="{{ asset('css/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
+            <!-- Bootstrap -->
+            <script src="{{ asset('css/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+            <!-- DataTables & Plugins -->
+            <script src="{{ asset('css/AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/jszip/jszip.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/pdfmake/pdfmake.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/pdfmake/vfs_fonts.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+            <script src="{{ asset('css/AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+            <!-- AdminLTE App -->
+            <script src="{{ asset('css/AdminLTE/dist/js/adminlte.min.js') }}"></script>
+            {{-- Save PDF --}}
+            <script>
+                $(function() {
+                    $("#torder-table").DataTable({
+                        "responsive": true,
+                        "lengthChange": false,
+                        "autoWidth": false,
+                        "buttons": [{
+                                extend: 'pdfHtml5',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                },
+                                customize: function(doc) {
+                                    doc.styles.tableBodyEven.alignment = 'left';
+                                    doc.styles.tableBodyOdd.alignment = 'left';
+                                }
+                            },
+                            {
+                                extend: 'csv',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            }
+                        ]
+                    }).buttons().container().appendTo('#torder-table_wrapper .col-md-6:eq(0)');
+                });
+
+                $(function() {
+                    $("#ptorder-table").DataTable({
+                        "responsive": true,
+                        "lengthChange": false,
+                        "autoWidth": false,
+                        "buttons": [{
+                                extend: 'pdfHtml5',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                },
+                                customize: function(doc) {
+                                    doc.styles.tableBodyEven.alignment = 'left';
+                                    doc.styles.tableBodyOdd.alignment = 'left';
+                                }
+                            },
+                            {
+                                extend: 'csv',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            },
+                            {
+                                extend: 'excel',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                exportOptions: {
+                                    columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                                }
+                            }
+                        ]
+                    }).buttons().container().appendTo('#ptorder-table_wrapper .col-md-6:eq(0)');
+                });
+            </script>
+            {{-- JS --}}
+            <script src="{{ asset('JS/script.js') }}"></script>
+            <script>
+                feather.replace();
+            </script>
 </body>
-
 </html>

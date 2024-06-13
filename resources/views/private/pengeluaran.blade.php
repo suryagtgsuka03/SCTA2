@@ -66,14 +66,6 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="/dashboard" class="nav-link">
-                                    <i class="nav-icon" data-feather="command"></i>
-                                    <p>
-                                        Dashboard
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="/monitor" class="nav-link">
                                     <i class="nav-icon" data-feather="monitor"></i>
                                     <p>
@@ -144,8 +136,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Pengeluaran</a></li>
-                                <li class="breadcrumb-item active">Pengeluaran</li>
+                                {{--  --}}
                             </ol>
                         </div>
                     </div>
@@ -181,7 +172,7 @@
                                             @foreach ($data_pengeluaran as $pengeluaran)
                                                 <tr>
                                                     <td>{{ $pengeluaran->tanggal }}</td>
-                                                    <td>Rp. {{ $pengeluaran->jumlah }}</td>
+                                                    <td>Rp. {{ number_format($pengeluaran->jumlah, 0, ',', '.') }}</td>
                                                     <td>{{ $pengeluaran->sumber }}</td>
                                                     <td>{{ $pengeluaran->keterangan }}</td>
                                                     <td>
@@ -232,7 +223,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="jumlah" class="form-label">Jumlah</label>
-                                            <input type="text" class="form-control" id="jumlah" name="jumlah"
+                                            <input type="number" class="form-control" id="jumlah" name="jumlah"
                                                 value="{{ $pengeluaran->jumlah ?? '' }}">
                                         </div>
                                         <div class="mb-3">
@@ -274,7 +265,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="jumlah" class="form-label">Jumlah</label>
-                                                <input type="text" class="form-control" id="jumlah"
+                                                <input type="number" class="form-control" id="jumlah"
                                                     name="jumlah" value="{{ old('jumlah') }}">
                                             </div>
                                             <div class="mb-3">
@@ -323,19 +314,75 @@
     {{-- Save PDF --}}
     <script>
         $(function() {
+            $("#torder-table").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": [{
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        },
+                        customize: function(doc) {
+                            doc.styles.tableBodyEven.alignment = 'left';
+                            doc.styles.tableBodyOdd.alignment = 'left';
+                        }
+                    },
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    }
+                ]
+            }).buttons().container().appendTo('#torder-table_wrapper .col-md-6:eq(0)');
+        });
+
+        $(function() {
             $("#pengeluaran-table").DataTable({
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": [{
                         extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        },
                         customize: function(doc) {
-                            doc.content[1].table.widths = ['20%', '20%', '20%', '30%', '5%', '5%'];
                             doc.styles.tableBodyEven.alignment = 'left';
                             doc.styles.tableBodyOdd.alignment = 'left';
                         }
                     },
-                    "csv", "excel", "print"
+                    {
+                        extend: 'csv',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: ':not(:nth-last-child(-n+2))' // Mengecualikan dua kolom terakhir
+                        }
+                    }
                 ]
             }).buttons().container().appendTo('#pengeluaran-table_wrapper .col-md-6:eq(0)');
         });

@@ -11,7 +11,7 @@ class LoginController extends Controller
     public function login()
     {
         if (Auth::check()) {
-            return redirect('/dashboard');
+            return redirect('/monitor');
         } else {
             return view('public.login');
         }
@@ -25,7 +25,7 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($credentials)) {
-            return redirect('dashboard');
+            return redirect('monitor');
         } else {
             // Cek apakah email tidak ditemukan
             $user = \App\Models\User::where('email', $request->input('email'))->first();

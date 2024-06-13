@@ -27,4 +27,9 @@ class Supir extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function pTrans()
+    {
+        return $this->hasMany(PTrans::class, 'supir_id');
+    }
 }
